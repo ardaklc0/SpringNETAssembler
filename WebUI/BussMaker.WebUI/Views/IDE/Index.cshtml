@@ -1,0 +1,56 @@
+﻿@*
+*@
+@{
+}
+<head>
+    <link href="~/lib/codemirror/codemirror.css" rel="stylesheet" />
+    <script src="~/lib/codemirror/codemirror.js"></script>
+    <script src="~/lib/codemirror/mode/clike/clike.js"></script>
+    <link href="~/lib/codemirror/theme/ayu-dark.css" rel="stylesheet" />
+</head>
+    <div class="container">
+        <div class="row p-1 justify-content-center">
+            <div class="col-3 text-center">
+                <a class="btn btn-success">Generate</a>
+            </div>
+        </div>
+        <div class="row p-1">
+            <div class="col-6">
+                @{
+                <textarea id="editor">public class @ViewBag.Title : IEntity{
+
+}</textarea>
+                }
+               
+            </div>
+            <div class="col-6">
+                @{
+                <textarea id="editor2">public class @ViewBag.Title : IEntity{
+
+}</textarea>
+                }
+            
+            </div>
+        </div>
+    </div>
+    <script>
+        var editor = CodeMirror.fromTextArea
+            (document.getElementById("editor"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+            theme: "ayu-dark",
+                indentUnit: 4,
+                
+            });
+
+        var editor2 = CodeMirror.fromTextArea
+            (document.getElementById("editor2"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+            theme: "ayu-dark",
+                indentUnit: 4,
+                readOnly: true
+            });
+    </script>
