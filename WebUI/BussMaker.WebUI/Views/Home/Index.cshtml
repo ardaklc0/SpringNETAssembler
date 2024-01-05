@@ -7,18 +7,27 @@
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Show all entities</h5>
-                    <p class="card-text">Choose an entity to create a business</p>
-                    <a class="btn btn-success card-link">Click here!</a>
+                    <h5 class="card-title">Create an entity</h5>
+                    <p class="card-text">Create an entity to create a business</p>
+                    <a asp-controller="Entity" asp-action="Create" class="btn btn-success card-link">Click here!</a>
                 </div>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Go to IDE</h5>
+                    <h5 class="card-title">Show all entities</h5>
+                    <p class="card-text">Choose an entity to create a business</p>
+                    <a asp-controller="Entity" asp-action="Index" class="btn btn-success card-link">Click here!</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Choose an entity (IDE)</h5>
                     <p class="card-text">Go to entity and generate bussiness</p>
-                    <a asp-controller="IDE" asasp-action="Index" class="btn btn-success card-link">Click here!</a>
+                    <a asp-controller="IDE" asp-action="Index" asp-route-id="1" class="btn btn-success card-link">Click here!</a>
                 </div>
             </div>
         </div>

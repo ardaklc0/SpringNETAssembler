@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BussMaker.WebUI</title>
+    <title>@ViewData["Title"] - BussMaker</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BussMaker.WebUI.styles.css" asp-append-version="true" />
@@ -11,13 +11,18 @@
         body, nav{
             background-color: black;
         }
+
+        .container {
+            max-width: 100% !important;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:white !important;">BussMaker.WebUI</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:white !important;">BussMaker</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -31,7 +36,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy" style="color:white !important;">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="IDE" asp-action="Index" style="color:white !important;">IDE</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="IDE" asp-action="Index" asp-route-id="1" style="color:white !important;">IDE</a>
                         </li>
                     </ul>
                 </div>
@@ -39,7 +44,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="">
             @RenderBody()
         </main>
     </div>

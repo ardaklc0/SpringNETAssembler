@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BussMaker.DataTransferObject.Responses.GetEntityDisplayResponse>
+
+<style>
+    th, td {
+        color: #fff;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Fields</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Generate</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entity in Model)
+        {
+            <tr>
+                <th scope="row">@entity.Id</th>
+                <td>@entity.Name</td>
+                <td>@entity.Fields</td>
+                <td><a class="btn btn-success btn-sm rounded-0">Edit</a></td>
+                <td><a asp-controller="IDE" asp-action="Index" asp-route-id="@entity.Id" class="btn btn-success btn-sm rounded-0">Generate</a></td>
+                <td><a class="btn btn-danger btn-sm rounded-0">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

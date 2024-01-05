@@ -22,12 +22,12 @@ namespace BussMaker.Infrastructure.Data
                 {
                     new Entity
                     {
-                        Name = "Entity 1",
+                        Name = "FirstEntity",
                         Fields = "Deneme"
                     },
                     new Entity
                     {
-                        Name = "Entity 2",
+                        Name = "SecondEntity",
                         Fields = "Deneme"
                     },
                 };
