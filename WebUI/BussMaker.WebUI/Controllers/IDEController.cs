@@ -10,11 +10,12 @@ namespace BussMaker.WebUI.Controllers
         {
             this.service = service;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            var existingEntity = await service.GetEntityAsync(1);
+            var existingEntity = await service.GetEntityAsync(id);
             ViewBag.Title = existingEntity.Name;
             return View();
         }
+
     }
 }

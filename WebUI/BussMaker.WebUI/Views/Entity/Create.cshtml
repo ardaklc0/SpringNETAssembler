@@ -1,0 +1,58 @@
+﻿<head>
+    <link href="~/lib/codemirror/codemirror.css" rel="stylesheet" />
+    <script src="~/lib/codemirror/codemirror.js"></script>
+    <script src="~/lib/codemirror/mode/clike/clike.js"></script>
+    <link href="~/lib/codemirror/theme/dracula.css" rel="stylesheet" />
+    <style>
+        h4 {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <div class="row p-1">
+        <div class="col">
+            <h4>Write Fields for Entity</h4>
+            @{
+            <textarea id="editor">public class "Change This!" : IEntity{
+
+}</textarea>
+            }
+
+        </div>
+    </div>
+<div class="row p-3 justify-content-center">
+    <div class="col-3 text-center">
+        <a id="generateButton" class="btn btn-success">Generate</a>
+    </div>
+</div>
+
+
+<script>
+    var editor = CodeMirror.fromTextArea
+        (document.getElementById("editor"), {
+            lineNumbers: true,
+            mode: "text/x-csharp",
+            matchBrackets: true,
+            theme: "dracula",
+            indentUnit: 4,
+    });
+
+    function updateTextArea() {
+        var text = editor.getValue();
+        var firstIndex = text.indexOf('"') + 1;
+        var lastIndex = text.lastIndexOf('"');
+        var newText = text.substring(firstIndex, lastIndex);
+        document.getElementById("editor").innerText = newText;
+    }
+
+    editor.on("change", updateTextArea);
+
+    var generateButton = document.getElementById("generateButton");
+    generateButton.addEventListener("click", function() {
+        var element = document.getElementById("editor");
+        var text = element.innerText;
+        console.log(text);
+    });
+</script>

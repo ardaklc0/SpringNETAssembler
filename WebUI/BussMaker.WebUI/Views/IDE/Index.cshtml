@@ -1,55 +1,174 @@
-﻿@*
-*@
-@{
-}
-<head>
+﻿<head>
     <link href="~/lib/codemirror/codemirror.css" rel="stylesheet" />
     <script src="~/lib/codemirror/codemirror.js"></script>
     <script src="~/lib/codemirror/mode/clike/clike.js"></script>
-    <link href="~/lib/codemirror/theme/ayu-dark.css" rel="stylesheet" />
+    <link href="~/lib/codemirror/theme/dracula.css" rel="stylesheet" />
+    <style>
+        h4{
+            color: #fff;
+        }
+    </style>
 </head>
+    @{
+        string createDto = "CreateNew" + ViewBag.Title + "Request";
+        string updateDto = "UpdateExisting" + ViewBag.Title + "Request";
+        string getDto = "Get" + ViewBag.Title + "DisplayResponse";
+        string interfaceService = "I" + ViewBag.Title + "Service";
+        string service = ViewBag.Title + "Service";
+        string interfaceRepositoryEntity = "I" + ViewBag.Title + "Repository";
+        string repository = "EF" + ViewBag.Title + "Repository";
+        string interfaceRepository = "IRepository<T>";
+        string repositoryWithEntity = "IRepository" + "<" + ViewBag.Title + ">";
+    }
     <div class="container">
-        <div class="row p-1 justify-content-center">
-            <div class="col-3 text-center">
-                <a class="btn btn-success">Generate</a>
-            </div>
+    <div class="row p-1">
+        <div class="col-4">
+            <h4>@createDto</h4>
+            @{
+                <textarea id="editor2">public class @createDto{
+
+}</textarea>
+            }
+
         </div>
-        <div class="row p-1">
-            <div class="col-6">
-                @{
-                <textarea id="editor">public class @ViewBag.Title : IEntity{
+        <div class="col-4">
+            <h4>@updateDto</h4>
+            @{
+                <textarea id="editor3">public class @updateDto{
 
 }</textarea>
-                }
-               
-            </div>
-            <div class="col-6">
-                @{
-                <textarea id="editor2">public class @ViewBag.Title : IEntity{
+            }
+
+        </div>
+        <div class="col-4">
+            <h4>@getDto</h4>
+            @{
+                <textarea id="editor4">public class @getDto{
 
 }</textarea>
-                }
-            
-            </div>
+            }
+
         </div>
     </div>
-    <script>
-        var editor = CodeMirror.fromTextArea
-            (document.getElementById("editor"), {
-                lineNumbers: true,
-                mode: "text/x-csharp",
-                matchBrackets: true,
-            theme: "ayu-dark",
-                indentUnit: 4,
-                
-            });
+    <div class="row p-1">
+        <div class="col-4">
+            <h4>@interfaceRepository</h4>
+            @{
+                <textarea id="editor5">public interface @interfaceRepository where T : class, IEntity, new() {
 
+}</textarea>
+                }
+
+        </div>
+        <div class="col-4">
+            <h4>@repository</h4>
+            @{
+                 <textarea id="editor6">public class @repository : @interfaceRepositoryEntity{
+
+}</textarea>
+                }
+            </div>
+        <div class="col-4">
+            <h4>@interfaceRepositoryEntity</h4>
+            @{
+                <textarea id="editor7">public interface @interfaceRepositoryEntity : @repositoryWithEntity{
+
+}</textarea>
+            }
+        </div>
+
+     </div>
+    <div class="row p-1" >
+        <div class="col-6">
+            <h4>@interfaceService</h4>
+            @{
+                <textarea id="editor8">public interface @interfaceService{
+
+}</textarea>
+            }
+
+        </div>
+        <div class="col-6">
+            <h4>@service</h4>
+            @{
+                <textarea id="editor9">public class @service : @interfaceService{
+
+}</textarea>
+            }
+        </div>
+    </div>
+
+
+    <script>
         var editor2 = CodeMirror.fromTextArea
             (document.getElementById("editor2"), {
                 lineNumbers: true,
                 mode: "text/x-csharp",
                 matchBrackets: true,
-            theme: "ayu-dark",
+            theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+            });
+        var editor3 = CodeMirror.fromTextArea
+            (document.getElementById("editor3"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+            });
+        var editor4 = CodeMirror.fromTextArea
+            (document.getElementById("editor4"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+        });
+        var editor5 = CodeMirror.fromTextArea
+            (document.getElementById("editor5"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+        });
+        var editor6 = CodeMirror.fromTextArea
+            (document.getElementById("editor6"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+        });
+        var editor7 = CodeMirror.fromTextArea
+            (document.getElementById("editor7"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+        });
+        var editor8 = CodeMirror.fromTextArea
+            (document.getElementById("editor8"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
+                indentUnit: 4,
+                readOnly: true
+        });
+        var editor9 = CodeMirror.fromTextArea
+            (document.getElementById("editor9"), {
+                lineNumbers: true,
+                mode: "text/x-csharp",
+                matchBrackets: true,
+                theme: "dracula",
                 indentUnit: 4,
                 readOnly: true
             });
