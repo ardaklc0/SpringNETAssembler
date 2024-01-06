@@ -21,7 +21,7 @@ namespace BussMaker.WebUI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateNewEntityRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateNewEntityRequest request)
         {
             if (ModelState.IsValid)
             {
@@ -30,5 +30,21 @@ namespace BussMaker.WebUI.Controllers
             }
             return View();
         }  
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateExistingEntityRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                await service.UpdateEntityAsync(request);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await service.DeleteEntityAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }

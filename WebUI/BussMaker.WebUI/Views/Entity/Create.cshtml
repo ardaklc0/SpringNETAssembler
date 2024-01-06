@@ -3,6 +3,7 @@
     <script src="~/lib/codemirror/codemirror.js"></script>
     <script src="~/lib/codemirror/mode/clike/clike.js"></script>
     <link href="~/lib/codemirror/theme/dracula.css" rel="stylesheet" />
+
     <style>
         h4 {
             color: #fff;
@@ -29,6 +30,7 @@
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     var editor = CodeMirror.fromTextArea
         (document.getElementById("editor"), {
@@ -49,10 +51,78 @@
 
     editor.on("change", updateTextArea);
 
+    function getAllRows() {
+        var elements = document.getElementsByClassName("CodeMirror-line");
+        var allElementList = [];
+        for (var i = 0; i < elements.length; i++) {
+            var element = elements[i];
+            var text = element.innerText.replaceAll("get", "")
+                                        .replaceAll("set", "")
+                                        .replaceAll("{", "")
+                                        .replaceAll("}", "")
+                                        .replaceAll(";", "");
+            var trimmedText = text.trimRight().trimLeft();
+            var elementList = trimmedText.split(" ");
+            var elementMap = {
+                "keyword": elementList[0],
+                "type": elementList[1],
+                "variable": elementList[2]
+            } 
+            allElementList.push(elementMap);
+        }
+        allElementList.shift();
+        allElementList.pop();
+        return JSON.stringify(allElementList);
+    }
+
+
+    $(document).ready(function () {
+        $('#generateButton').click(function () {
+            var allRows = getAllRows();
+            var text = getEntityName();
+
+            var requestedData = {
+                "Name": text,
+                "Fields": allRows
+            }
+
+            console.log(allRows);
+            $.ajax({
+                type: "POST",
+                url: "/Entity/Create",
+                data: JSON.stringify(requestedData),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    window.location.reload();
+                },
+                failure: function (response) {
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    });
+
+    function getEntityName() {
+        var element = document.getElementById("editor");
+        var text = element.innerText;
+        return text;
+    }
+
+
     var generateButton = document.getElementById("generateButton");
+
+    generateButton.addEventListener("click", getAllRows);
+    generateButton.addEventListener("click", getEntityName);
+
     generateButton.addEventListener("click", function() {
         var element = document.getElementById("editor");
         var text = element.innerText;
         console.log(text);
+        return text;
     });
 </script>
