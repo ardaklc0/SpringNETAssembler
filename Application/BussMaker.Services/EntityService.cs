@@ -2,10 +2,13 @@
 using BussMaker.DataTransferObject.Responses;
 using BussMaker.Entities;
 using BussMaker.Infrastructure.Repository;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace BussMaker.Services
@@ -65,6 +68,33 @@ namespace BussMaker.Services
                 Fields = request.Fields
             };
             return repository.UpdateAsync(updatedUser);
+        }
+
+        public async Task<string> CreateDataTransferObjectCreateAsync(int id)
+        {
+            var entity = await repository.GetByIdAsync(id);
+            JArray? jsonModel = JsonConvert.DeserializeObject(entity.Fields) as JArray;
+            if  (jsonModel != null) {
+                List<Dictionary<string, string>?> newList = new List<Dictionary<string, string>?>();
+                newList = jsonModel.Skip(1).Select(x => x.ToObject<Dictionary<string, string>>()).ToList();
+                var json = JsonConvert.SerializeObject(newList);
+                return json;
+            }
+            return "";
+        }
+
+        public async Task<string> CreateDataTransferObjectUpdateAndGetAsync(int id)
+        {
+            var entity = await repository.GetByIdAsync(id);
+            JArray? jsonModel = JsonConvert.DeserializeObject(entity.Fields) as JArray;
+            if (jsonModel != null)
+            {
+                List<Dictionary<string, string>?> newList = new List<Dictionary<string, string>?>();
+                newList = jsonModel.Select(x => x.ToObject<Dictionary<string, string>>()).ToList();
+                var json = JsonConvert.SerializeObject(jsonModel);
+                return json;
+            }
+            return "";
         }
     }
 }

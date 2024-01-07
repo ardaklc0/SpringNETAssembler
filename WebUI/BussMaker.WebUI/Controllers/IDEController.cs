@@ -1,4 +1,5 @@
 ﻿using BussMaker.Services;
+using BussMaker.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BussMaker.WebUI.Controllers
@@ -14,8 +15,23 @@ namespace BussMaker.WebUI.Controllers
         {
             var existingEntity = await service.GetEntityAsync(id);
             ViewBag.Title = existingEntity.Name;
+            var dtoModel = new DataTransferObjectViewModel
+            {
+                DataTransferObjectCreate = await service.CreateDataTransferObjectCreateAsync(id),
+                DataTransferObjectUpdateAndGet = await service.CreateDataTransferObjectUpdateAndGetAsync(id)
+            };
+            return View(dtoModel);
+        }
+        public async Task<IActionResult> CreateFirst()
+        {
+            await service.CreateDataTransferObjectCreateAsync(5);
             return View();
         }
 
+        public async Task<IActionResult> CreateSecond()
+        {
+            await service.CreateDataTransferObjectUpdateAndGetAsync(5);
+            return View();
+        }
     }
 }

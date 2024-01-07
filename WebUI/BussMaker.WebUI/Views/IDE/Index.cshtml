@@ -19,6 +19,8 @@
         string repository = "EF" + ViewBag.Title + "Repository";
         string interfaceRepository = "IRepository<T>";
         string repositoryWithEntity = "IRepository" + "<" + ViewBag.Title + ">";
+        string genericEntity = "T";
+        string genericListEntity = "List<T>";
     }
     <div class="container">
     <div class="row p-1">
@@ -55,7 +57,11 @@
             <h4>@interfaceRepository</h4>
             @{
                 <textarea id="editor5">public interface @interfaceRepository where T : class, IEntity, new() {
-
+    Task<@genericEntity> GetAsync(int id);
+    Task<@genericListEntity> GetAllAsync();
+    Task CreateAsync(T entity);
+    Task DeleteAsync(int id);
+    Task UpdateAsync(T entity);
 }</textarea>
                 }
 
