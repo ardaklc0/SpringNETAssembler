@@ -29,12 +29,10 @@ namespace BussMaker.Services
             };
             await repository.CreateAsync(entity);
         }
-
         public async Task DeleteEntityAsync(int id)
         {
             await repository.DeleteAsync(id);
         }
-
         public async Task<IEnumerable<GetEntityDisplayResponse>> GetAllEntitiesAsync()
         {
             var entities = await repository.GetAllAsync();
@@ -46,7 +44,6 @@ namespace BussMaker.Services
             });
             return responses;
         }
-
         public async Task<GetEntityDisplayResponse> GetEntityAsync(int id)
         {
             var user = await repository.GetByIdAsync(id);
@@ -58,7 +55,6 @@ namespace BussMaker.Services
             };
             return response;
         }
-
         public Task UpdateEntityAsync(UpdateExistingEntityRequest request)
         {
             var updatedUser = new Entity
@@ -69,7 +65,6 @@ namespace BussMaker.Services
             };
             return repository.UpdateAsync(updatedUser);
         }
-
         public async Task<List<Dictionary<string, string>>> CreateDataTransferObjectCreateAsync(int id)
         {
             var entity = await repository.GetByIdAsync(id);
@@ -89,7 +84,6 @@ namespace BussMaker.Services
             }
             return new List<Dictionary<string, string>>();
         }
-
         public async Task<List<Dictionary<string, string>>> CreateDataTransferObjectUpdateAndGetAsync(int id)
         {
             var entity = await repository.GetByIdAsync(id);
@@ -132,8 +126,6 @@ namespace BussMaker.Services
             {
                 mappingsForGetAndUpdate += $"\t\t\t{variable} = request.{variable}\n";
             }
-
-
             List<Dictionary<string, string>> scripts = new()
             {
                 new Dictionary<string, string>
@@ -143,8 +135,8 @@ namespace BussMaker.Services
                     "\t{\n" +
                     $"\t\tvar {nameLower} = new {entityName}\n" +
                     "\t\t{\n" +
-                    $"{mappingsForCreate}" + 
-                    "\t\t}\n" + 
+                    $"{mappingsForCreate}" +
+                    "\t\t}\n" +
                     $"\t\tawait repository.CreateAsync({entityName})\n" +
                     "\t}\n"
                     },
@@ -158,20 +150,38 @@ namespace BussMaker.Services
                     $"\tpublic async Task<IEnumerable<{getDto}>> GetAll{getDto}Async() \n" +
                     "\t{\n" +
                     $"\t\tvar {nameLower}s = await repository.GetAllAsync();\n" +
-                    $"\t\tvar responses = {entityName}.Select(p => new {getDto}\n" +
+                    $"\t\tvar responses = {nameLower}s.Select(request => new {getDto}\n" +
                     "\t\t{\n" +
                     $"{mappingsForGetAndUpdate}" +
                     "\t\t});\n" +
-                    "\t\treturn responses\n" +
+                    "\t\treturn responses;\n" +
+                    "\t}\n"
+                    },
+                    {"getAsync",
+                    $"\tpublic async Task<{getDto}> Get{getDto}Async(int id) \n" +
+                    "\t{\n" +
+                    $"\t\tvar request = await repository.GetByIdAsync(id);\n" +
+                    $"\t\tvar response = new {getDto}\n" +
+                    "\t\t{\n" +
+                    $"{mappingsForGetAndUpdate}" +
+                    "\t\t};\n" +
+                    "\t\treturn response;\n" +
+                    "\t}\n"
+                    },
+                    {"updateAsync",
+                    $"\tpublic async Task Update{getDto}Async({updateDto} request) \n" +
+                    "\t{\n" +
+                    $"\t\tvar updated{entityName} = new {entityName}\n" +
+                    "\t\t{\n" +
+                    $"{mappingsForGetAndUpdate}" +
+                    "\t\t};\n" +
+                    $"\t\treturn repository.UpdateAsync(updated{entityName})\n" +
                     "\t}\n"
                     }
                 }
             };
-
-
             return scripts;
         }
-
         public async Task<List<Dictionary<string, string>>> CreateEFRepository(int id)
         {
             var entity = await repository.GetByIdAsync(id);
