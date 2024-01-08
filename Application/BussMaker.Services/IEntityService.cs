@@ -15,7 +15,9 @@ namespace BussMaker.Services
         Task CreateEntityAsync(CreateNewEntityRequest request);
         Task DeleteEntityAsync(int id);
         Task UpdateEntityAsync(UpdateExistingEntityRequest request);
-        Task<string> CreateDataTransferObjectCreateAsync(int id);
-        Task<string> CreateDataTransferObjectUpdateAndGetAsync(int id);
+        Task<List<Dictionary<string, string>>> CreateDataTransferObjectCreateAsync(int id);
+        Task<List<Dictionary<string, string>>> CreateDataTransferObjectUpdateAndGetAsync(int id);
+        Task<List<Dictionary<string, string>>> CreateEFRepository(int id);
+        Task<List<Dictionary<string, string>>> CreateService(int id);
     }
 }

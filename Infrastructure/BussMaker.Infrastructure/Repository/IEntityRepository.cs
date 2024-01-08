@@ -9,5 +9,6 @@ namespace BussMaker.Infrastructure.Repository
 {
     public interface IEntityRepository : IRepository<Entity>
     {
+
     }
 }

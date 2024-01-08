@@ -1,4 +1,5 @@
-﻿<head>
+﻿@model DataTransferObjectViewModel
+<head>
     <link href="~/lib/codemirror/codemirror.css" rel="stylesheet" />
     <script src="~/lib/codemirror/codemirror.js"></script>
     <script src="~/lib/codemirror/mode/clike/clike.js"></script>
@@ -23,88 +24,130 @@
         string genericListEntity = "List<T>";
     }
     <div class="container">
-    <div class="row p-1">
-        <div class="col-4">
-            <h4>@createDto</h4>
-            @{
-                <textarea id="editor2">public class @createDto{
+        <div class="row p-1">
+            <div class="col-4">
+                <h4>@createDto</h4>
+                @{
+                    string createCode = "public class " + createDto + " {\n";
+                    foreach (var item in Model.DataTransferObjectCreate)
+                    {
+                        foreach (var value in item.Values)
+                        {
+                            createCode += " \t" + value + "\n";
+                        }
+                    }
+                    createCode += "}";
+                }
+                <textarea id="editor2">@createCode</textarea>
+            </div>
 
-}</textarea>
-            }
 
-        </div>
-        <div class="col-4">
-            <h4>@updateDto</h4>
-            @{
-                <textarea id="editor3">public class @updateDto{
+            <div class="col-4">
+                <h4>@updateDto</h4>
+                @{
+                    string updateCode = "public class " + updateDto + " {\n";
+                    foreach (var item in Model.DataTransferObjectUpdateAndGet)
+                    {
+                        foreach (var value in item.Values)
+                        {
+                            updateCode += " \t" + value + "\n";
+                        }
+                    }
+                    updateCode += "}";
+                }
+                <textarea id="editor3">@updateCode</textarea>
+            </div>
 
-}</textarea>
-            }
-
-        </div>
-        <div class="col-4">
-            <h4>@getDto</h4>
-            @{
-                <textarea id="editor4">public class @getDto{
-
-}</textarea>
-            }
-
-        </div>
+            <div class="col-4">
+                <h4>@getDto</h4>
+                @{
+                    string getCode = "public class " + getDto + " {\n";
+                    foreach (var item in Model.DataTransferObjectUpdateAndGet)
+                    {
+                        foreach (var value in item.Values)
+                        {
+                            getCode += " \t" + value + "\n"; 
+                        }
+                    }
+                    getCode += "}";
+                }
+                <textarea id="editor4">@getCode</textarea>
+            </div>
     </div>
+
     <div class="row p-1">
         <div class="col-4">
             <h4>@interfaceRepository</h4>
             @{
-                <textarea id="editor5">public interface @interfaceRepository where T : class, IEntity, new() {
-    Task<@genericEntity> GetAsync(int id);
-    Task<@genericListEntity> GetAllAsync();
-    Task CreateAsync(T entity);
-    Task DeleteAsync(int id);
-    Task UpdateAsync(T entity);
-}</textarea>
-                }
-
+                string interfaceRepoCode = "public interface " + interfaceRepository + " {\n";
+                interfaceRepoCode += "\t" + "Task<" + genericEntity + "> GetAsync(int id); \n";
+                interfaceRepoCode += "\t" + "Task<" + genericListEntity + "> GetAllAsync(); \n";
+                interfaceRepoCode += "\t" + "Task CreateAsync(" + genericEntity + " entity); \n";
+                interfaceRepoCode += "\t" + "Task DeleteAsync(int id)" + "\n";
+                interfaceRepoCode += "\t" + "Task UpdateAsync(" + genericEntity + " entity); \n";
+                interfaceRepoCode += "}";
+            }
+            <textarea id="editor5">@interfaceRepoCode</textarea>
         </div>
         <div class="col-4">
             <h4>@repository</h4>
             @{
-                 <textarea id="editor6">public class @repository : @interfaceRepositoryEntity{
-
-}</textarea>
+                string repositoryClass = "public class " + repository + " : " + interfaceRepositoryEntity + "{\n";
+                foreach (var item in Model.RepositoryList)
+                {
+                    foreach (var value in item.Values)
+                    {
+                        repositoryClass += value;
+                    }
                 }
-            </div>
+                repositoryClass += "}"; 
+            }
+            <textarea id="editor6">@repositoryClass</textarea>
+        </div>
+
         <div class="col-4">
             <h4>@interfaceRepositoryEntity</h4>
             @{
-                <textarea id="editor7">public interface @interfaceRepositoryEntity : @repositoryWithEntity{
-
-}</textarea>
+                string repositoryEntityClass = "public interface " + interfaceRepositoryEntity + " : " + repositoryWithEntity + "{\n";
+                repositoryEntityClass += "}";
             }
+            <textarea id="editor7">@repositoryEntityClass</textarea>
         </div>
-
      </div>
+
     <div class="row p-1" >
         <div class="col-6">
             <h4>@interfaceService</h4>
             @{
-                <textarea id="editor8">public interface @interfaceService{
-
-}</textarea>
+                string interfaceServiceClass = "public interface " + interfaceService + "{\n";
+                interfaceServiceClass +="\t" + "Task<" + getDto + "> GetEntityAsync(int id);\n";
+                interfaceServiceClass +="\t" + "Task<IEnumerable<" + getDto + "> GetAllEntitiesAsync();\n";
+                interfaceServiceClass +="\t" + "Task CreateEntityAsync(" + createDto + "request);\n";
+                interfaceServiceClass +="\t" + "Task DeleteEntityAsync(int id);\n";
+                interfaceServiceClass +="\t" + "Task UpdateEntityAsync(" + updateDto + "request);\n";
+                interfaceServiceClass += "}";
             }
-
+            <textarea id="editor8">@interfaceServiceClass</textarea>
         </div>
+
         <div class="col-6">
             <h4>@service</h4>
             @{
-                <textarea id="editor9">public class @service : @interfaceService{
-
-}</textarea>
+                string interfaceClass = "public class " + service + " : " + interfaceService + "{\n";
+                foreach (var item in Model.ServiceList)
+                {
+                    foreach (var value in item.Values)
+                    {
+                        interfaceClass += value;
+                    }
+                }
+                interfaceClass += "}";
             }
+            <textarea id="editor9">@interfaceClass</textarea>
         </div>
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         var editor2 = CodeMirror.fromTextArea
             (document.getElementById("editor2"), {
@@ -178,4 +221,5 @@
                 indentUnit: 4,
                 readOnly: true
             });
+        
     </script>
