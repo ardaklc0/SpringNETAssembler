@@ -18,7 +18,9 @@ namespace BussMaker.WebUI.Controllers
             var dtoModel = new DataTransferObjectViewModel
             {
                 DataTransferObjectCreate = await service.CreateDataTransferObjectCreateAsync(id),
-                DataTransferObjectUpdateAndGet = await service.CreateDataTransferObjectUpdateAndGetAsync(id)
+                DataTransferObjectUpdateAndGet = await service.CreateDataTransferObjectUpdateAndGetAsync(id),
+                RepositoryList = await service.CreateEFRepository(id),
+                ServiceList = await service.CreateService(id)
             };
             return View(dtoModel);
         }

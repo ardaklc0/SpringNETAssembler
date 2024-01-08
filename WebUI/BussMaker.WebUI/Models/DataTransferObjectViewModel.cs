@@ -2,7 +2,9 @@
 {
     public class DataTransferObjectViewModel
     {
-        public string DataTransferObjectCreate { get; set; }
-        public string DataTransferObjectUpdateAndGet { get; set; }
+        public List<Dictionary<string, string>> DataTransferObjectCreate { get; set; }
+        public List<Dictionary<string, string>> DataTransferObjectUpdateAndGet { get; set; }
+        public List<Dictionary<string, string>> RepositoryList { get; set; }
+        public List<Dictionary<string, string>> ServiceList { get; set; }
     }
 }
